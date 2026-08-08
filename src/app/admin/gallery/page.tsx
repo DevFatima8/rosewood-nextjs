@@ -44,7 +44,7 @@ export default function AdminGalleryPage() {
   function choosePreview(file?: File) { if (file) { if (preview.startsWith("blob:")) URL.revokeObjectURL(preview); setPreview(URL.createObjectURL(file)); } }
 
   return <main className="admin-shell">
-    <header className="admin-header"><Link href="/"><img src="/rosewood-logo.svg" alt="rosewood Hotel" /></Link><div><Link href="/gallery" target="_blank">View public gallery ↗</Link><span>Gallery administration</span></div></header>
+    <header className="admin-header"><Link href="/"><img src="/logo.png" alt="rosewood Hotel" /></Link><div><Link href="/gallery" target="_blank">View public gallery ↗</Link><span>Gallery administration</span></div></header>
     <section className="admin-title"><div><span>rosewood CONTENT MANAGER</span><h1>Gallery <em>studio.</em></h1><p>Upload, edit and curate every image shown on the public gallery.</p></div><div className="image-count"><b>{images.length}</b><span>Images live</span></div></section>
     <section className="admin-layout">
       <form className="admin-form" onSubmit={submit} key={editing?.id ?? "new"}>

@@ -24,6 +24,22 @@ const occasions = [
   ["Longer stays", "Dependable housekeeping, useful amenities and a welcoming team make extended time away from home feel simpler."],
 ];
 
+// --- New Services Data ---
+const ourServices = [
+  { icon: "🛏️", title: "Comfortable Rooms", text: "Relax in our thoughtfully furnished rooms, designed with comfortable bedding, modern amenities, and a peaceful atmosphere for a restful stay." },
+  { icon: "🍳", title: "Complimentary Breakfast", text: "Start your morning with a fresh and satisfying complimentary breakfast, prepared to give you a great start to your day." },
+  { icon: "🧹", title: "Daily Housekeeping", text: "Our housekeeping team works throughout your stay to keep your room clean, fresh, and comfortable." },
+  { icon: "📶", title: "Complimentary Wi-Fi", text: "Stay connected with complimentary high-speed Wi-Fi available throughout the hotel, whether you are working, browsing, or staying in touch with loved ones." },
+  { icon: "🕒", title: "24/7 Front Desk", text: "Our front desk team is available around the clock to assist with check-in, check-out, guest requests, and any information you may need during your stay." },
+  { icon: "🍽️", title: "Dining & Room Service", text: "Enjoy a selection of meals and refreshments with convenient dining and room-service options, allowing you to enjoy your meal in comfort." },
+  { icon: "🅿️", title: "Convenient Parking", text: "Guests can enjoy convenient parking facilities, making arrivals and departures easy and hassle-free." },
+  { icon: "🧳", title: "Luggage Assistance", text: "Our team is available to assist with your luggage and provide storage when required, ensuring a smooth arrival and departure." },
+  { icon: "💼", title: "Business Facilities", text: "Our comfortable and professional environment is suitable for business travelers, meetings, and work-related stays." },
+  { icon: "👨‍👩‍👧‍👦", title: "Family-Friendly Environment", text: "Rosewood Hotel provides a welcoming and comfortable environment for families, couples, and individual travelers." },
+  { icon: "📍", title: "Local Assistance", text: "Our team can assist with information about nearby attractions, restaurants, shopping areas, transportation, and other local services." },
+  { icon: "🚕", title: "Transportation Assistance", text: "Need help getting around? Our team can assist with arranging transportation and providing guidance for your local travel needs." },
+];
+
 export default function ServicesPage() {
   return <main><Header />
     <section className="inner-hero services-hero"><img src="1.jpeg" alt="rosewood Hotel guest service" /><div className="hero-veil" /><div><span className="kicker">THOUGHTFUL HOSPITALITY</span><h1>Service that<br /><em>feels effortless.</em></h1></div></section>
@@ -31,6 +47,27 @@ export default function ServicesPage() {
     <section className="services-intro"><div><span className="kicker dark">THE rosewood APPROACH</span><h2>Everything considered.<br /><em>Nothing overdone.</em></h2></div><div><p className="large-copy">The best hotel service does not interrupt your stay—it quietly makes every part of it easier.</p><p>At rosewood HOTEL, our service begins before you arrive and continues until the moment you leave. We combine practical comforts, responsive people and calm spaces to create a dependable experience for business travellers, families and city visitors alike.</p><a className="arrow-link" href="tel:03706466550">Speak with our team <span>→</span></a></div></section>
 
     <section className="essential-services"><div className="gallery-heading"><div><span className="kicker dark">STAY ESSENTIALS</span><h2>Comfort built into<br />every <em>day.</em></h2></div><p>Useful, reliable services designed around the way modern guests travel, work and rest.</p></div><div className="essential-grid">{essentials.map((service, index) => <article key={service.title}><span className="service-number">{String(index + 1).padStart(2, "0")}</span><i>{service.icon}</i><h3>{service.title}</h3><p>{service.text}</p></article>)}</div></section>
+
+    {/* --- New "Our Services" Section --- */}
+    <section className="our-services-section">
+      <div className="gallery-heading">
+        <div>
+          <span className="kicker dark">OUR SERVICES</span>
+          <h2>Designed for your<br /><em>comfort and ease.</em></h2>
+        </div>
+        <p>At Rosewood Hotel, we believe every stay should be comfortable, convenient, and memorable. From a warm welcome to thoughtful amenities, our services are designed to provide our guests with a relaxing and enjoyable experience.</p>
+      </div>
+      <div className="our-services-grid">
+        {ourServices.map((service, index) => (
+          <article key={service.title} className="service-card">
+            <span className="service-icon">{service.icon}</span>
+            <h3>{service.title}</h3>
+            <p>{service.text}</p>
+            <span className="service-card-number">{String(index + 1).padStart(2, "0")}</span>
+          </article>
+        ))}
+      </div>
+    </section>
 
     <section className="service-feature"><div className="service-feature-image"><img src="2.jpeg" alt="Attentive hotel team preparing a room" /><span>CARE IN EVERY DETAIL</span></div><div className="service-feature-copy"><span className="kicker dark">HOUSEKEEPING & ROOM CARE</span><h2>A fresh start,<br />every <em>morning.</em></h2><p className="large-copy">Your room should always feel like a place where the day can slow down.</p><p>Our housekeeping team maintains each space with care, consistency and respect for your privacy. From crisp bedding and clean bathrooms to replenished essentials, the details are handled so you can settle in without distraction.</p><div className="mini-stats"><div><b>Daily</b><span>Room care</span></div><div><b>Always</b><span>Fresh essentials</span></div><div><b>Your way</b><span>Privacy respected</span></div></div></div></section>
 
