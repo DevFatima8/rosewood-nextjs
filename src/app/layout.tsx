@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#0b1b28", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="en"><body><MotionEffects />{children}<WhatsAppButton /></body></html>;
+  return <html lang="en" data-scroll-behavior="smooth"><body><MotionEffects />{children}<WhatsAppButton /></body></html>;
 }

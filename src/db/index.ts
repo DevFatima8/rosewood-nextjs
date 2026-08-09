@@ -13,7 +13,13 @@ let postgresPool: PostgresPool | undefined;
 let mysqlPool: mysql.Pool | undefined;
 
 if (databaseDialect === "mysql") {
-  mysqlPool = globalForDb.rosewoodMysqlPool ?? mysql.createPool({ uri: databaseUrl, connectionLimit: 8, enableKeepAlive: true });
+  mysqlPool = globalForDb.rosewoodMysqlPool ?? mysql.createPool({
+    uri: databaseUrl,
+    connectionLimit: 10,
+    connectTimeout: 10000,
+    waitForConnections: true,
+    enableKeepAlive: true,
+  });
   if (process.env.NODE_ENV !== "production") globalForDb.rosewoodMysqlPool = mysqlPool;
 } else {
   postgresPool = globalForDb.rosewoodPostgresPool ?? new PostgresPool({ connectionString: databaseUrl });

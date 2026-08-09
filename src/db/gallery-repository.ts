@@ -17,34 +17,47 @@ type GalleryInput = Pick<GalleryRecord, "title" | "altText" | "imageUrl" | "clou
 let initialization: Promise<void> | null = null;
 
 export function ensureGallerySchema() {
-  if (!initialization) initialization = initializeSchema();
+  if (!initialization) {
+    initialization = initializeSchema().catch((err) => {
+      initialization = null;
+      throw err;
+    });
+  }
   return initialization;
 }
 
 async function initializeSchema() {
   if (databaseDialect === "mysql") {
     if (!mysqlDb) throw new Error("MySQL database client is unavailable.");
-    await mysqlDb.execute(sql.raw(`CREATE TABLE IF NOT EXISTS gallery_images (
-      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      title VARCHAR(120) NOT NULL,
-      alt_text VARCHAR(180) NOT NULL DEFAULT 'rosewood Hotel gallery image',
-      image_url TEXT NOT NULL,
-      cloudinary_public_id VARCHAR(255) NULL,
-      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`));
+    try {
+      await mysqlDb.execute(sql.raw(`CREATE TABLE IF NOT EXISTS gallery_images (
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(120) NOT NULL,
+        alt_text VARCHAR(180) NOT NULL DEFAULT 'rosewood Hotel gallery image',
+        image_url TEXT NOT NULL,
+        cloudinary_public_id VARCHAR(255) NULL,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`));
+    } catch (err) {
+      console.warn("gallery_images table check/creation notice:", err);
+    }
   } else {
     if (!pgDb) throw new Error("PostgreSQL database client is unavailable.");
-    await pgDb.execute(sql.raw(`CREATE TABLE IF NOT EXISTS gallery_images (
-      id SERIAL PRIMARY KEY,
-      title TEXT NOT NULL,
-      alt_text TEXT NOT NULL DEFAULT 'rosewood Hotel gallery image',
-      image_url TEXT NOT NULL,
-      cloudinary_public_id TEXT,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )`));
-    await pgDb.execute(sql.raw("ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS cloudinary_public_id TEXT"));
+    try {
+      await pgDb.execute(sql.raw(`CREATE TABLE IF NOT EXISTS gallery_images (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        alt_text TEXT NOT NULL DEFAULT 'rosewood Hotel gallery image',
+        image_url TEXT NOT NULL,
+        cloudinary_public_id TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )`));
+      await pgDb.execute(sql.raw("ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS cloudinary_public_id TEXT"));
+    } catch (err) {
+      console.warn("PostgreSQL table check/creation notice:", err);
+    }
   }
 }
 

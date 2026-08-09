@@ -29,7 +29,10 @@ export async function POST(request: Request) {
     return NextResponse.json(image, { status: 201 });
   } catch (error) {
     console.error("Gallery upload failed", error);
-    const message = error instanceof Error && error.message.includes("Cloudinary credentials") ? error.message : "Image upload failed. Verify Cloudinary and database credentials.";
+    const errMessage = error instanceof Error ? error.message : "Image upload failed.";
+    const message = errMessage.includes("Cloudinary credentials")
+      ? errMessage
+      : `Image upload failed: ${errMessage}. Verify Cloudinary and database connection.`;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
